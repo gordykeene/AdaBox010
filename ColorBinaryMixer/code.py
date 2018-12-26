@@ -18,7 +18,7 @@ trellis = adafruit_trellism4.TrellisM4Express(rotation = 90)
 width = trellis.pixels.width
 height = trellis.pixels.height
 
-BLINK_COLOR = (4, 3, 1)
+BLINK_COLOR = (0, 0, 0)
 next_blink = time.monotonic() 
 blinker_state = False
 
@@ -29,7 +29,7 @@ isPressed = False
 
 while True:
     stamp = time.monotonic()
-    print(stamp)
+    # print(stamp)
 
     # reset
     pixels = [[(brightness[(7 - x) * (y == 0)], brightness[(7 - x) * (y == 1)], brightness[(7 - x) * (y == 2)]) for x in range(8)] for y in range(8)]
@@ -47,11 +47,15 @@ while True:
 
             if (x == 0):
                 R = R - brightness[7 - y] if R & brightness[7 - y] else R + brightness[7 - y]
-            if (x == 1):
+            elif (x == 1):
                 G = G - brightness[7 - y] if G & brightness[7 - y] else G + brightness[7 - y]
-            if (x == 2):
+            elif (x == 2):
                 B = B - brightness[7 - y] if B & brightness[7 - y] else B + brightness[7 - y]
-            if (x == 3): 
+            elif (y == 0): 
+                R = 255
+                G = 255
+                B = 255
+            elif (y == 7): 
                 R = 0
                 G = 0
                 B = 0
@@ -69,7 +73,7 @@ while True:
             pixels[2][y] = BLINK_COLOR if B & brightness[7 - y] else pixels[2][y]
 
     # Render resulting color
-    print (R, G, B)
+    # print (R, G, B)
     # resultingColor = (brightness[7 - Ri], brightness[7 - Gi], brightness[7 - Bi])
     for y in range(0, height):
         pixels[3][y] = (R, G, B)
